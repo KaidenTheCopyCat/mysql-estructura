@@ -1,5 +1,5 @@
 -- MySQL Workbench Synchronization
--- Generated: 2023-04-19 11:38
+-- Generated: 2023-04-24 11:14
 -- Model: New Model
 -- Version: 1.0
 -- Project: Name of the project
@@ -51,7 +51,6 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Optica`.`Ulleres` (
   `Ulleres_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `Marca` VARCHAR(45) NOT NULL,
   `Graduacio_VD` DECIMAL NOT NULL,
   `Graduacio_VE` DECIMAL NOT NULL,
   `Tipus_Montura` VARCHAR(45) NOT NULL COMMENT 'Valors Possibles:\nFlotants\nPasta\nMetalica',
@@ -59,26 +58,32 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Ulleres` (
   `Color_VD` VARCHAR(45) NOT NULL,
   `Color_VE` VARCHAR(45) NOT NULL,
   `Preu` DECIMAL NOT NULL,
-  PRIMARY KEY (`Ulleres_id`, `Marca`))
+  `Marca_Marca_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Ulleres_id`, `Marca_Marca_id`),
+  INDEX `fk_Ulleres_Marca1_idx` (`Marca_Marca_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Ulleres_Marca1`
+    FOREIGN KEY (`Marca_Marca_id`)
+    REFERENCES `Optica`.`Marca` (`Marca_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Optica`.`Proveidor_te_Ulleres` (
   `Proveidor_te_Ulleres_id` INT(11) NOT NULL AUTO_INCREMENT,
   `Proveidors_Proveidors_id` INT(11) NOT NULL,
-  `Ulleres_Ulleres_id` INT(11) NOT NULL,
-  `Ulleres_Marca` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Proveidor_te_Ulleres_id`, `Proveidors_Proveidors_id`, `Ulleres_Ulleres_id`, `Ulleres_Marca`),
+  `Marca_Marca_id` INT(11) NOT NULL,
+  PRIMARY KEY (`Proveidor_te_Ulleres_id`, `Proveidors_Proveidors_id`, `Marca_Marca_id`),
   INDEX `fk_Proveidor_te_Ulleres_Proveidors1_idx` (`Proveidors_Proveidors_id` ASC) VISIBLE,
-  INDEX `fk_Proveidor_te_Ulleres_Ulleres1_idx` (`Ulleres_Ulleres_id` ASC, `Ulleres_Marca` ASC) VISIBLE,
+  INDEX `fk_Proveidor_te_Ulleres_Marca1_idx` (`Marca_Marca_id` ASC) VISIBLE,
   CONSTRAINT `fk_Proveidor_te_Ulleres_Proveidors1`
     FOREIGN KEY (`Proveidors_Proveidors_id`)
     REFERENCES `Optica`.`Proveidors` (`Proveidors_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_Proveidor_te_Ulleres_Ulleres1`
-    FOREIGN KEY (`Ulleres_Ulleres_id` , `Ulleres_Marca`)
-    REFERENCES `Optica`.`Ulleres` (`Ulleres_id` , `Marca`)
+  CONSTRAINT `fk_Proveidor_te_Ulleres_Marca1`
+    FOREIGN KEY (`Marca_Marca_id`)
+    REFERENCES `Optica`.`Marca` (`Marca_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -140,6 +145,13 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Client_Recomenat` (
     REFERENCES `Optica`.`Client` (`Client_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `Optica`.`Marca` (
+  `Marca_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Marca_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
