@@ -1,5 +1,5 @@
 -- MySQL Workbench Synchronization
--- Generated: 2023-04-20 13:30
+-- Generated: 2023-04-24 11:25
 -- Model: New Model
 -- Version: 1.0
 -- Project: Name of the project
@@ -137,15 +137,14 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda_has_Begudes` (
   `Comanda_Comanda_id` INT(11) NOT NULL,
-  `Comanda_Client_Client_id` INT(11) NOT NULL,
-  `Comanda_Botiga_Botiga_id` INT(11) NOT NULL,
   `Begudes_Productes_id` INT(11) NOT NULL,
-  PRIMARY KEY (`Comanda_Comanda_id`, `Comanda_Client_Client_id`, `Comanda_Botiga_Botiga_id`, `Begudes_Productes_id`),
+  `Quantitat_Begudes` INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Comanda_Comanda_id`, `Begudes_Productes_id`),
   INDEX `fk_Comanda_has_Begudes_Begudes1_idx` (`Begudes_Productes_id` ASC) VISIBLE,
-  INDEX `fk_Comanda_has_Begudes_Comanda1_idx` (`Comanda_Comanda_id` ASC, `Comanda_Client_Client_id` ASC, `Comanda_Botiga_Botiga_id` ASC) VISIBLE,
+  INDEX `fk_Comanda_has_Begudes_Comanda1_idx` (`Comanda_Comanda_id` ASC) VISIBLE,
   CONSTRAINT `fk_Comanda_has_Begudes_Comanda1`
-    FOREIGN KEY (`Comanda_Comanda_id` , `Comanda_Client_Client_id` , `Comanda_Botiga_Botiga_id`)
-    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id` , `Client_Client_id` , `Botiga_Botiga_id`)
+    FOREIGN KEY (`Comanda_Comanda_id`)
+    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Comanda_has_Begudes_Begudes1`
@@ -158,15 +157,14 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda_has_Hamburguesa` (
   `Comanda_Comanda_id` INT(11) NOT NULL,
-  `Comanda_Client_Client_id` INT(11) NOT NULL,
-  `Comanda_Botiga_Botiga_id` INT(11) NOT NULL,
   `Hamburguesa_Productes_id` INT(11) NOT NULL,
-  PRIMARY KEY (`Comanda_Comanda_id`, `Comanda_Client_Client_id`, `Comanda_Botiga_Botiga_id`, `Hamburguesa_Productes_id`),
+  `Quantitat_Hamburguesa` INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Comanda_Comanda_id`, `Hamburguesa_Productes_id`),
   INDEX `fk_Comanda_has_Hamburguesa_Hamburguesa1_idx` (`Hamburguesa_Productes_id` ASC) VISIBLE,
-  INDEX `fk_Comanda_has_Hamburguesa_Comanda1_idx` (`Comanda_Comanda_id` ASC, `Comanda_Client_Client_id` ASC, `Comanda_Botiga_Botiga_id` ASC) VISIBLE,
+  INDEX `fk_Comanda_has_Hamburguesa_Comanda1_idx` (`Comanda_Comanda_id` ASC) VISIBLE,
   CONSTRAINT `fk_Comanda_has_Hamburguesa_Comanda1`
-    FOREIGN KEY (`Comanda_Comanda_id` , `Comanda_Client_Client_id` , `Comanda_Botiga_Botiga_id`)
-    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id` , `Client_Client_id` , `Botiga_Botiga_id`)
+    FOREIGN KEY (`Comanda_Comanda_id`)
+    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Comanda_has_Hamburguesa_Hamburguesa1`
@@ -179,16 +177,15 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda_has_Pizza` (
   `Comanda_Comanda_id` INT(11) NOT NULL,
-  `Comanda_Client_Client_id` INT(11) NOT NULL,
-  `Comanda_Botiga_Botiga_id` INT(11) NOT NULL,
   `Pizza_Productes_id` INT(11) NOT NULL,
   `Pizza_Categoria_Categoria_id` INT(11) NOT NULL,
-  PRIMARY KEY (`Comanda_Comanda_id`, `Comanda_Client_Client_id`, `Comanda_Botiga_Botiga_id`, `Pizza_Productes_id`, `Pizza_Categoria_Categoria_id`),
+  `Quantitat_Pizza` INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Comanda_Comanda_id`, `Pizza_Productes_id`, `Pizza_Categoria_Categoria_id`),
   INDEX `fk_Comanda_has_Pizza_Pizza1_idx` (`Pizza_Productes_id` ASC, `Pizza_Categoria_Categoria_id` ASC) VISIBLE,
-  INDEX `fk_Comanda_has_Pizza_Comanda1_idx` (`Comanda_Comanda_id` ASC, `Comanda_Client_Client_id` ASC, `Comanda_Botiga_Botiga_id` ASC) VISIBLE,
+  INDEX `fk_Comanda_has_Pizza_Comanda1_idx` (`Comanda_Comanda_id` ASC) VISIBLE,
   CONSTRAINT `fk_Comanda_has_Pizza_Comanda1`
-    FOREIGN KEY (`Comanda_Comanda_id` , `Comanda_Client_Client_id` , `Comanda_Botiga_Botiga_id`)
-    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id` , `Client_Client_id` , `Botiga_Botiga_id`)
+    FOREIGN KEY (`Comanda_Comanda_id`)
+    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Comanda_has_Pizza_Pizza1`
@@ -201,22 +198,18 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda_has_Repartidor` (
   `Comanda_Comanda_id` INT(11) NOT NULL,
-  `Comanda_Client_Client_id` INT(11) NOT NULL,
-  `Comanda_Botiga_Botiga_id` INT(11) NOT NULL,
-  `Repartidor_Repartidor_id` INT(11) NOT NULL,
   `Repartidor_Empleat_Empleat_id` INT(11) NOT NULL,
-  `Comanda_entrega` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Comanda_Comanda_id`, `Comanda_Client_Client_id`, `Comanda_Botiga_Botiga_id`, `Repartidor_Repartidor_id`, `Repartidor_Empleat_Empleat_id`),
-  INDEX `fk_Comanda_has_Repartidor_Repartidor1_idx` (`Repartidor_Repartidor_id` ASC, `Repartidor_Empleat_Empleat_id` ASC) VISIBLE,
-  INDEX `fk_Comanda_has_Repartidor_Comanda1_idx` (`Comanda_Comanda_id` ASC, `Comanda_Client_Client_id` ASC, `Comanda_Botiga_Botiga_id` ASC) VISIBLE,
+  PRIMARY KEY (`Comanda_Comanda_id`, `Repartidor_Empleat_Empleat_id`),
+  INDEX `fk_Comanda_has_Repartidor_Repartidor1_idx` (`Repartidor_Empleat_Empleat_id` ASC) VISIBLE,
+  INDEX `fk_Comanda_has_Repartidor_Comanda1_idx` (`Comanda_Comanda_id` ASC) VISIBLE,
   CONSTRAINT `fk_Comanda_has_Repartidor_Comanda1`
-    FOREIGN KEY (`Comanda_Comanda_id` , `Comanda_Client_Client_id` , `Comanda_Botiga_Botiga_id`)
-    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id` , `Client_Client_id` , `Botiga_Botiga_id`)
+    FOREIGN KEY (`Comanda_Comanda_id`)
+    REFERENCES `Pizzeria`.`Comanda` (`Comanda_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Comanda_has_Repartidor_Repartidor1`
-    FOREIGN KEY (`Repartidor_Repartidor_id` , `Repartidor_Empleat_Empleat_id`)
-    REFERENCES `Pizzeria`.`Repartidor` (`Repartidor_id` , `Empleat_Empleat_id`)
+    FOREIGN KEY (`Repartidor_Empleat_Empleat_id`)
+    REFERENCES `Pizzeria`.`Repartidor` (`Empleat_Empleat_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
