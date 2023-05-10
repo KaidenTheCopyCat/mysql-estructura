@@ -1,4 +1,4 @@
-var MongoClient = require('mongodb').MongoClient;
+var MongoClient = require("mongodb").MongoClient;
 var url = "mongodb://localhost:27017/optica";
 
 MongoClient.connect(url, function(err, db) {
@@ -32,12 +32,12 @@ MongoClient.connect(url, function(err, db) {
   
   
   var myobjpro = [
-  	{id_:1,nom: 'Proveidor 1',
-        adresa: {carrer: 'Carrer lorem',numero: '1',pis: '2',porta: '2',ciutat: 'Sit',codiPostal: '12345',pais: 'Amet'},
-        telf: '123456789',fax: '987654321',nif: 'NIF 456987'},
-  	{id_:2,nom: 'Proveidor 2',
-        adresa: {carrer: 'Carrer ipsum',numero: '2',pis: '3',porta: '1',ciutat: 'consectetur',codiPostal: '67890',pais: 'adipiscing'},
-        telf: '123456789',fax: '987654321',nif: 'NIF 123654'}
+  	{id_:1,nom: "Proveidor 1",
+        adresa: {carrer: "Carrer lorem",numero: "1",pis: "2",porta: "2",ciutat: "Sit",codiPostal: "12345",pais: "Amet"},
+        telf: "123456789",fax: "987654321",nif: "NIF 456987"},
+  	{id_:2,nom: "Proveidor 2",
+        adresa: {carrer: "Carrer ipsum",numero: "2",pis: "3",porta: "1",ciutat: "consectetur",codiPostal: "67890",pais: "adipiscing"},
+        telf: "123456789",fax: "987654321",nif: "NIF 123654"}
   ];
   
   var myobjull = [
